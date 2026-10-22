@@ -103,11 +103,11 @@ button{cursor:pointer}
 
 /* player row */
 .pl{border-bottom:1px solid var(--line)}
-.pl-row,.phead{display:grid;grid-template-columns:44px 40px 40px minmax(0,1fr) 44px;align-items:center;gap:8px}
+.pl-row,.phead{display:grid;grid-template-columns:44px minmax(0,1fr) 40px 40px 44px;align-items:center;gap:8px}
 .pl-row{padding:8px 0}
 .phead{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:4px 0;border-bottom:2px solid var(--tc)}
 .phead span{text-align:center}
-.phead span:nth-child(4){text-align:left}
+.phead span:nth-child(2){text-align:left}
 .no{width:44px;height:44px;border-radius:10px;border:2px solid var(--tc);background:var(--surface);color:var(--tc);font-family:var(--f-display);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;position:relative}
 .no.has-note::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:currentColor}
 .pl.open .no{background:var(--tc);color:var(--tc-ink)}
@@ -339,13 +339,13 @@ function box(k,f,label){
 }
 function panel(t){
   let h='<div class="panel '+t+'" data-panel="'+t+'" role="tabpanel" aria-label="Joueurs équipe '+t+'">'+
-    '<div class="phead" aria-hidden="true"><span>N°</span><span>Perf</span><span>Pot</span><span>Nom</span><span>★</span></div>';
+    '<div class="phead" aria-hidden="true"><span>N°</span><span>Nom</span><span>Perf</span><span>Pot</span><span>★</span></div>';
   for(let n=1;n<=N;n++){
     const k=t+'-'+n;
     h+='<div class="pl" data-pl="'+k+'"><div class="pl-row">'+
       '<button type="button" class="no" data-toggle="'+k+'" aria-label="Joueur '+n+', poste et commentaire">'+n+'</button>'+
-      box(k,'perf','Performance')+box(k,'pot','Potentiel')+
       '<div class="who"><input id="nm-in-'+k+'" data-pf="'+k+'|name" placeholder="Nom" list="known-names" autocomplete="off" aria-label="Nom joueur '+n+'"><span class="pl-name" id="nm-'+k+'"></span></div>'+
+      box(k,'perf','Performance')+box(k,'pot','Potentiel')+
       '<button type="button" class="starbtn" data-star="'+k+'" aria-pressed="false" aria-label="Sort du lot">'+STAR+'</button>'+
     '</div><div class="pl-more" id="more-'+k+'" hidden>'+
       '<div class="chips">'+Object.keys(POS).map(p=>'<button type="button" class="chip" data-pos="'+k+'|'+p+'" aria-pressed="false">'+p+'</button>').join('')+'</div>'+

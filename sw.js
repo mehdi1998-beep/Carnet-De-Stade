@@ -1,5 +1,5 @@
 // Garde l'appli disponible sans réseau. Change VERSION à chaque mise à jour des fichiers.
-const VERSION = 'carnet-v1';
+const VERSION = 'carnet-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
