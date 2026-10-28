@@ -1,5 +1,5 @@
 // Garde l'appli disponible sans réseau. Change VERSION à chaque mise à jour des fichiers.
-const VERSION = 'carnet-v4';
+const VERSION = 'carnet-v5';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -22,7 +22,7 @@ self.addEventListener('fetch', e => {
   // Page : réseau d'abord (pour recevoir les mises à jour), sinon la copie gardée.
   if (req.mode === 'navigate') {
     e.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put('./index.html', copy)); return res; })
         .catch(() => caches.match('./index.html'))
     );

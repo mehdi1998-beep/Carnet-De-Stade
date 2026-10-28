@@ -188,6 +188,7 @@ button{cursor:pointer}
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="storage-note" id="last-backup"></p>
+      <p class="storage-note">Version 5</p>
     </div>
     <datalist id="known-names"></datalist>
   </section>
@@ -503,7 +504,16 @@ initStore().then(s=>{
   showLastBackup();
   s.subscribe(onData);
 });
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+/* Updates: always ask for a fresh sw.js, check again whenever the app comes back to the screen,
+   and reload once when a new version takes over. */
+if('serviceWorker' in navigator){
+  const hadController=!!navigator.serviceWorker.controller;let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadController||reloading||state.openId)return;reloading=true;location.reload();});
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(reg=>{
+    const check=()=>{if(navigator.onLine!==false)reg.update().catch(()=>{});};
+    check();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check();});
+  }).catch(()=>{}));
+}
 })();
 </script>
 </body>
